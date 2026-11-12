@@ -1,46 +1,46 @@
 ---
-title: 'Migrate from the archived Google module'
-description: 'Move from the archived mod_pagespeed or ngx_pagespeed binaries to mod_pagespeed 2: package swap, what maps to what, cache, rollback.'
-order: 15
-group: 'Upgrade and migrate'
-lastUpdated: 2026-10-18
-datePublished: 2026-10-08
-faq:
-  - q: 'Is mod_pagespeed 2 a drop-in replacement for the archived module?'
-    a: 'Yes. It continues the same codebase, keeps the `pagespeed` and `ModPagespeed` directive surface and the classic filter names, and loads in process on Apache and nginx. Your configuration, `.htaccess` directives included, carries over.'
-  - q: 'What do I lose?'
-    a: 'Nothing you configured. A handful of long-inert filters and experimental options are accepted and ignored with a warning, and the old file cache is left in place while the new Cyclone cache warms up.'
----
+Название: «Миграция из архивного модуля Google»
+описание: «Перейдите от архивных mod_pagespeed или ngx_pagespeed двоичных файлов mod_pagespeed 2: обмен пакетами, какие карты к чему, кэш, откат».
+Пятница: 15
+группа: «Обновляйся и мигрируй»
+Последнее обновление: 2026-10-18
+Дата публикации: 2026-10-08
+Фактическое суждение:
+  -         q: «Является ли mod_pagespeed 2 заменой архивного модуля?»       
+     А: 'Да. Он продолжает ту же кодовую базу, сохраняет     `скорость страницы`     и     `Скорость ModPage`     директивная поверхность и классические названия фильтров, а также нагрузки в процессе на Apache и nginx. Ваша конфигурация,     `.htaccess`     директивы включали, переносили.   
+  -        q: «Что я потеряю?»      
+           а: 'Ничего ты не настроил. Несколько давно инертных фильтров и экспериментальных вариантов принимаются и игнорируются предупреждением, а старый кэш файлов остается на месте, пока новый кэш циклона разогревается".           
+   а: 'Ничего ты не настроил. Несколько давно инертных фильтров и экспериментальных вариантов принимаются и игнорируются предупреждением, а старый кэш файлов остается на месте, пока новый кэш циклона разогревается".      
 
-mod_pagespeed is an open-source project originally developed at Google. It was
-donated to the Apache Software Foundation in 2017, the Incubator podling
-retired in 2023, and the repositories became read-only in 2025; the 1.13.35.2
-binaries still install but have had no security fixes since. mod_pagespeed 2,
-developed by We-Amp B.V. and not affiliated with or endorsed by Google,
-continues that codebase: same
-directives, same filter names, built against current Apache and nginx, with
-ongoing security fixes. The move is a package swap and a restart.
+mod_pagespeed — это проект с открытым исходным кодом, первоначально разработанный в Google. Это было
+пожертвование в фонд программного обеспечения Apache в два тысяч семнадцать году, инкубатор
+выйдя на пенсию в 2023 году, а хранилища стали читать только в 2025 году; 1,13,35,2
+двоичные файлы все еще устанавливаются но с тех пор не имеют исправлений безопасности. mod_pagespeed 2,
+разработанный We-Amp B. V. и не связанный с Google и не одобренный им,
+продолжает эту кодовую базу: то же самое
+директивы, те же названия фильтров, построенные против нынешних Apache и nginx, с
+постоянные исправления безопасности. Этот шаг — обмен пакетами и перезапуск.
 
-## Before you start
+##  Прежде чем начать
 
-Record the version you have, and keep a copy of your configuration and of the
-archived package for a rollback. If you run the archived beta, write
-`mod-pagespeed-beta` wherever this page says `mod-pagespeed-stable`, in the
-file names below too. Run the block for your setup.
+Название: «Миграция из архивного модуля Google»
+Последнее обновление: 2026-10-18
+`мод-страница-скоростная бета`   везде где написано на этой странице   `мод-страница-скоростная стабильная`В
+Название: «Миграция из архивного модуля Google»
 
-```bash
-# Apache on Debian or Ubuntu
-curl -sI http://localhost/ | grep -E 'X-Mod-Pagespeed|X-Page-Speed'
+Пятница: 15
+# Apache на Debian или Ubuntu
+локоть -sI http://localhost/ | grep -E 'X-Mod-Pagespeed|X-Page-Speed'
 sudo cp -a /etc/apache2/mods-available/pagespeed.conf ~/pagespeed.conf.google
-curl -fsSL -o ~/mod-pagespeed-stable_current_amd64.deb https://dl.google.com/linux/direct/mod-pagespeed-stable_current_amd64.deb
-```
+Название: «Миграция из архивного модуля Google»
+Название: «Миграция из архивного модуля Google»
 
-```bash
-# Apache on Enterprise Linux
-curl -sI http://localhost/ | grep -E 'X-Mod-Pagespeed|X-Page-Speed'
-sudo cp -a /etc/httpd/conf.d/pagespeed.conf ~/pagespeed.conf.google
-curl -fsSL -o ~/mod-pagespeed-stable_current_x86_64.rpm https://dl.google.com/linux/direct/mod-pagespeed-stable_current_x86_64.rpm
-```
+    q: «Является ли mod_pagespeed 2 заменой архивного модуля?» bash  
+---Название: «Миграция из архивного модуля Google»
+    q: «Что я потеряю?»        
+Название: «Миграция из архивного модуля Google»
+Название: «Миграция из архивного модуля Google»          
+  Прежде чем начать
 
 ```bash
 # nginx: the module file (Debian and Ubuntu, or Enterprise Linux path) and the
@@ -52,9 +52,9 @@ for d in /usr/lib/nginx/modules /usr/lib64/nginx/modules; do
   fi
 done
 sudo grep -Rns '^[[:space:]]*load_module.*pagespeed' /etc/nginx | tee ~/ngx_pagespeed-load_module.txt
-```
+   а: 'Ничего ты не настроил. Несколько давно инертных фильтров и экспериментальных вариантов принимаются и игнорируются предупреждением, а старый кэш файлов остается на месте, пока новый кэш циклона разогревается".           
 
-## Apache on Debian and Ubuntu
+mod_pagespeed — это проект с открытым исходным кодом, первоначально разработанный в Google. Это былопродолжает эту кодовую базу: то же самое
 
 ```bash
 # 1. Disable the archived package's apt source
